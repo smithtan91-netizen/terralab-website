@@ -6,9 +6,7 @@
   <title>TerraLab Studio</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -25,7 +23,7 @@
     .contours {
       position: fixed;
       inset: 0;
-      opacity: 0.16;
+      opacity: 0.17;
       background-image:
         repeating-radial-gradient(
           ellipse at center,
@@ -34,14 +32,18 @@
           rgba(150, 255, 65, 0.35) 19px,
           transparent 21px
         );
-      transform: rotate(-12deg) scale(1.5);
-      animation: drift 18s linear infinite;
+      transform: rotate(-12deg) scale(1.55);
+      animation: terrainDrift 28s ease-in-out infinite alternate;
       pointer-events: none;
     }
 
-    @keyframes drift {
-      from { transform: rotate(-12deg) scale(1.5) translateX(0); }
-      to { transform: rotate(-12deg) scale(1.5) translateX(-80px); }
+    @keyframes terrainDrift {
+      from {
+        transform: rotate(-12deg) scale(1.55) translateX(0px) translateY(0px);
+      }
+      to {
+        transform: rotate(-12deg) scale(1.65) translateX(-70px) translateY(35px);
+      }
     }
 
     .page {
@@ -57,7 +59,7 @@
     .card {
       max-width: 860px;
       width: 100%;
-      padding: 56px 40px;
+      padding: 52px 40px;
       border: 1px solid rgba(157, 255, 69, 0.28);
       border-radius: 24px;
       background: rgba(10, 14, 13, 0.76);
@@ -65,13 +67,46 @@
         0 0 80px rgba(157, 255, 69, 0.12),
         inset 0 0 40px rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(14px);
+      transition: 0.35s ease;
+      animation: fadeCard 1s ease forwards;
+    }
+
+    .card:hover {
+      border-color: rgba(157, 255, 69, 0.5);
+      box-shadow:
+        0 0 110px rgba(157, 255, 69, 0.22),
+        inset 0 0 44px rgba(255, 255, 255, 0.04);
+      transform: translateY(-3px);
+    }
+
+    @keyframes fadeCard {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .logo {
-      width: 330px;
-      max-width: 85%;
+      width: 285px;
+      max-width: 80%;
       margin-bottom: 34px;
-      filter: drop-shadow(0 0 24px rgba(157, 255, 69, 0.18));
+      filter: drop-shadow(0 0 26px rgba(157, 255, 69, 0.22));
+      animation: logoFade 1.1s ease forwards;
+    }
+
+    @keyframes logoFade {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     .eyebrow {
@@ -80,6 +115,7 @@
       font-size: 13px;
       text-transform: uppercase;
       margin-bottom: 18px;
+      animation: fadeUp 1s ease 0.25s both;
     }
 
     h1 {
@@ -90,8 +126,39 @@
       text-transform: uppercase;
     }
 
-    h1 span {
+    .line-one {
+      display: block;
+      animation: fadeUp 0.9s ease 0.45s both;
+    }
+
+    .line-two {
+      display: block;
       color: #9dff45;
+      animation: glowUp 0.9s ease 0.95s both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glowUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+        text-shadow: 0 0 0 rgba(157, 255, 69, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        text-shadow: 0 0 28px rgba(157, 255, 69, 0.32);
+      }
     }
 
     p {
@@ -100,6 +167,7 @@
       color: #c4c8c3;
       font-size: 19px;
       line-height: 1.7;
+      animation: fadeUp 1s ease 1.35s both;
     }
 
     .status {
@@ -116,6 +184,7 @@
       letter-spacing: 1px;
       text-transform: uppercase;
       font-size: 13px;
+      animation: fadeUp 1s ease 1.65s both;
     }
 
     .dot {
@@ -124,12 +193,19 @@
       border-radius: 50%;
       background: #9dff45;
       box-shadow: 0 0 18px #9dff45;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.75); }
     }
 
     .footer {
       margin-top: 38px;
       color: #777f78;
       font-size: 14px;
+      animation: fadeUp 1s ease 1.85s both;
     }
 
     @media (max-width: 600px) {
@@ -140,6 +216,10 @@
       p {
         font-size: 16px;
       }
+
+      .logo {
+        width: 240px;
+      }
     }
   </style>
 </head>
@@ -149,11 +229,14 @@
 
   <main class="page">
     <section class="card">
-      <img class="logo" src="logo.png" alt="TerraLab Studio Logo" />
+      <img class="logo" src="logo-transparent.png" alt="TerraLab Studio Logo" />
 
       <div class="eyebrow">Professional Terrain Production Software</div>
 
-      <h1>Create Terrain.<br><span>Not Workflow.</span></h1>
+      <h1>
+        <span class="line-one">Create Terrain.</span>
+        <span class="line-two">Not Workflow.</span>
+      </h1>
 
       <p>
         TerraLab Studio is a terrain production suite built to bring terrain editing,
@@ -171,4 +254,5 @@
     </section>
   </main>
 </body>
+</html>
 </html>
